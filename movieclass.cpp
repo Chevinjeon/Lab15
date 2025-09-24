@@ -63,3 +63,35 @@ public:
         std::cout << std::endl;
     }
 };
+
+int main() {
+    std::ifstream inFile("input.txt");
+    if (!inFile) {
+        std::cerr << "Error: could not open input.txt" << std::endl;
+        return 1;
+    }
+
+    std::vector<Movie> movies; // container for Movie objects
+
+    std::string title, writer;
+    int year;
+
+    // Each record: title, year, writer (3 lines)
+    while (std::getline(inFile, title)) {
+        if (!(inFile >> year)) break;
+        inFile.ignore(); // discard newline left by >> 
+        if (!std::getline(inFile, writer)) break;
+
+        Movie temp(title, year, writer);
+        movies.push_back(temp);
+    }
+
+    inFile.close();
+
+    // Output all movies
+    for (const auto &m : movies) {
+        m.print();
+    }
+
+    return 0;
+}
